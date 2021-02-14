@@ -1,5 +1,6 @@
 import data.Ticket;
 
+import java.util.ConcurrentModificationException;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -34,10 +35,12 @@ public class MyTreeSet {
         return false;
     }
 
+    void removeAll(NavigableSet<Ticket> set){
+        myTreeSet.removeAll(set);
+    }
+
     void clear() {
-        for (Ticket t : myTreeSet) {
-            myTreeSet.remove(t);
-        }
+        myTreeSet.clear();
     }
 
     boolean isMax(Ticket ticket) {
@@ -56,8 +59,8 @@ public class MyTreeSet {
         return true;
     }
 
-    NavigableSet<Ticket> tailSet(Ticket ticket, boolean incl) {
-        return myTreeSet.tailSet(ticket, incl);
+    void headSet(Ticket ticket, boolean incl) {
+        myTreeSet =  myTreeSet.headSet(ticket, incl);
     }
 
     int sumDiscount() {

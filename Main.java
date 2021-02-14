@@ -7,10 +7,10 @@ import exceptions.InvalidArgument;
 import static resources.Resources.*;
 
 import java.time.ZonedDateTime;
+import java.util.ConcurrentModificationException;
 import java.util.Scanner;
 
 public class Main {
-
 
     public static void main(String[] args) throws InvalidArgument {
         String path = "C:\\ИТМО\\Прога\\Laba5";
@@ -44,21 +44,23 @@ public class Main {
                 treeSet.add(getElement(treeSet, file));
                 break;
             case "update id":
+                System.out.println("Enter id");
                 Scanner scanner = new Scanner(System.in);
                 int id = checkId(scanner.nextLine());
-                if (id != -1){
+                if (id != -1) {
                     if (!treeSet.remove(id)) {
                         System.out.println("Element with your id not found");
                     }
                     treeSet.add(getElement(treeSet, file));
-                } else{
+                } else {
                     System.out.println("Incorrect id");
                 }
                 break;
             case "remove_by_id id":
+                System.out.println("Enter id");
                 scanner = new Scanner(System.in);
                 id = checkId(scanner.nextLine());
-                if (id != -1){
+                if (id != -1) {
                     if (!treeSet.remove(id)) {
                         System.out.println("Element with your id not found");
                     }
@@ -71,7 +73,7 @@ public class Main {
                 Ticket ticket = getElement(treeSet, file);
                 if (treeSet.isMax(ticket)) {
                     treeSet.add(ticket);
-                }else{
+                } else {
                     System.out.println("Element isn't maximal");
                 }
                 break;
@@ -79,15 +81,13 @@ public class Main {
                 ticket = getElement(treeSet, file);
                 if (treeSet.isMin(ticket)) {
                     treeSet.add(ticket);
-                } else{
+                } else {
                     System.out.println("Element isn't minimal");
                 }
                 break;
             case "remove_greater":
                 ticket = getElement(treeSet, file);
-                for (Ticket t : treeSet.tailSet(ticket, true)) {
-                    treeSet.remove(t);
-                }
+                treeSet.headSet(ticket, false);
                 break;
             case "sum_of_discount":
                 System.out.println(treeSet.sumDiscount());
@@ -99,6 +99,9 @@ public class Main {
                 for (Float price : treeSet.uniquePrices()) {
                     System.out.println(price);
                 }
+                break;
+            default:
+                System.out.println("Command not found");
                 break;
         }
     }
@@ -207,7 +210,7 @@ public class Main {
 
         System.out.println("Enter ticket type. Don't enter anything if you don't want");
         data = scanner.nextLine();
-        if (!data.isEmpty()){
+        if (!data.isEmpty()) {
             while (true) {
                 data = scanner.nextLine();
                 try {
@@ -288,10 +291,10 @@ public class Main {
     }
 
     static int checkId(String data) {
-        try{
+        try {
             int id = Integer.parseInt(data);
             return id;
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return -1;
         }
     }
