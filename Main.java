@@ -6,28 +6,50 @@ import exceptions.InvalidArgument;
 
 import static resources.Resources.*;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.ZonedDateTime;
-import java.util.ConcurrentModificationException;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws InvalidArgument {
-        String path = "C:\\ИТМО\\Прога\\Laba5";
+        String path = "C:\\ИТМО\\Прога\\Laba5\\src\\File.csv";
+        StringBuilder dataFile = new StringBuilder();
+        try{
+            InputStreamReader reader = new InputStreamReader(new FileInputStream(path));
+            int x = reader.read();
+            while (x != -1) {
+                dataFile.append((char) x);
+                x = reader.read();
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("File not found. Collection is empty");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //System.out.println(dataFile);
 
         MyTreeSet treeSet = new MyTreeSet();
+
+        for (String data : dataFile.toString().split("\\n")){
+
+            treeSet.add(getElement(treeSet));
+        }
+
 
         Scanner scanner = new Scanner(System.in);
         String command = scanner.nextLine();
 
-        boolean file = false;
+
 
         while (command != "exit") {
-            doCommand(command, treeSet, file);
+            doCommand(command, treeSet, false);
             command = scanner.nextLine();
         }
     }
-
 
     public static void doCommand(String command, MyTreeSet treeSet, boolean file) throws InvalidArgument {
         switch (command) {
@@ -41,7 +63,7 @@ public class Main {
                 treeSet.print();
                 break;
             case "add":
-                treeSet.add(getElement(treeSet, file));
+                treeSet.add(getElement(treeSet));
                 break;
             case "update id":
                 System.out.println("Enter id");
@@ -51,7 +73,7 @@ public class Main {
                     if (!treeSet.remove(id)) {
                         System.out.println("Element with your id not found");
                     }
-                    treeSet.add(getElement(treeSet, file));
+                    treeSet.add(getElement(treeSet));
                 } else {
                     System.out.println("Incorrect id");
                 }
@@ -70,7 +92,7 @@ public class Main {
                 treeSet.clear();
                 break;
             case "add_if_max":
-                Ticket ticket = getElement(treeSet, file);
+                Ticket ticket = getElement(treeSet);
                 if (treeSet.isMax(ticket)) {
                     treeSet.add(ticket);
                 } else {
@@ -78,7 +100,7 @@ public class Main {
                 }
                 break;
             case "add_if_min":
-                ticket = getElement(treeSet, file);
+                ticket = getElement(treeSet);
                 if (treeSet.isMin(ticket)) {
                     treeSet.add(ticket);
                 } else {
@@ -86,7 +108,7 @@ public class Main {
                 }
                 break;
             case "remove_greater":
-                ticket = getElement(treeSet, file);
+                ticket = getElement(treeSet);
                 treeSet.headSet(ticket, false);
                 break;
             case "sum_of_discount":
@@ -106,16 +128,12 @@ public class Main {
         }
     }
 
-    static Ticket getElement(MyTreeSet treeSet, boolean file) {
-        if (file) {
-            return getElementFromFile(treeSet);
-        } else {
-            return getElementFromConsole(treeSet);
-        }
+    static Ticket getElement(MyTreeSet treeSet, String path) {
 
+        return null;
     }
 
-    public static Ticket getElementFromConsole(MyTreeSet treeSet) {
+    public static Ticket getElement(MyTreeSet treeSet) {
         String ticketName, eventName, comment;
         float price, y;
         long discount;
@@ -126,7 +144,7 @@ public class Main {
         Event event = null;
         Scanner scanner = new Scanner(System.in);
 
-        String data = new String();
+        String data;
 
         System.out.println("Enter ticket name");
         while (true) {
@@ -277,7 +295,7 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
             }
-            ticketsCount = new Integer(Integer.parseInt(data));
+            ticketsCount = Integer.parseInt(data);
 
             event = new Event(FIRST_EVENT_ID + treeSet.getCntEvent(), eventName, minAge, ticketsCount);
         }
@@ -348,6 +366,5 @@ public class Main {
             throw new InvalidArgument("Could not find this ticket type");
         }
     }
-
 
 }
