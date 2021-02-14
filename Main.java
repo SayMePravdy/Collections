@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws InvalidArgument {
-        String path = "C:\\ИТМО\\Прога\\Laba5\\src\\File.csv";
+        String path = "File.csv";
         StringBuilder dataFile = new StringBuilder();
         try{
             InputStreamReader reader = new InputStreamReader(new FileInputStream(path));
