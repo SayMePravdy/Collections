@@ -13,7 +13,7 @@ public class Main {
 
 
     public static void main(String[] args) throws InvalidArgument {
-        String path = "Палина\\прет";
+        String path = "C:\\ИТМО\\Прога\\Laba5";
 
         MyTreeSet treeSet = new MyTreeSet();
 
@@ -45,18 +45,23 @@ public class Main {
                 break;
             case "update id":
                 Scanner scanner = new Scanner(System.in);
-                int id = scanner.nextInt();
-                if (!treeSet.remove(id)) {
-                    System.out.println("Element with your id not found");
+                int id = checkId(scanner.nextLine());
+                if (id != -1){
+                    if (!treeSet.remove(id)) {
+                        System.out.println("Element with your id not found");
+                    }
+                    treeSet.add(getElement(treeSet, file));
+                } else{
+                    System.out.println("Incorrect id");
                 }
-                treeSet.add(getElement(treeSet, file));
-
                 break;
             case "remove_by_id id":
                 scanner = new Scanner(System.in);
-                id = scanner.nextInt();
-                if (!treeSet.remove(id)) {
-                    System.out.println("Element with your id not found");
+                id = checkId(scanner.nextLine());
+                if (id != -1){
+                    if (!treeSet.remove(id)) {
+                        System.out.println("Element with your id not found");
+                    }
                 }
                 break;
             case "clear":
@@ -66,12 +71,16 @@ public class Main {
                 Ticket ticket = getElement(treeSet, file);
                 if (treeSet.isMax(ticket)) {
                     treeSet.add(ticket);
+                }else{
+                    System.out.println("Element isn't maximal");
                 }
                 break;
             case "add_if_min":
                 ticket = getElement(treeSet, file);
                 if (treeSet.isMin(ticket)) {
                     treeSet.add(ticket);
+                } else{
+                    System.out.println("Element isn't minimal");
                 }
                 break;
             case "remove_greater":
@@ -196,29 +205,32 @@ public class Main {
         }
         comment = data;
 
-        System.out.println("Enter ticket type");
-        while (true) {
-            data = scanner.nextLine();
-            try {
-                checkTicketType(data);
-                break;
-            } catch (InvalidArgument e) {
-                System.out.println(e.getMessage());
+        System.out.println("Enter ticket type. Don't enter anything if you don't want");
+        data = scanner.nextLine();
+        if (!data.isEmpty()){
+            while (true) {
+                data = scanner.nextLine();
+                try {
+                    checkTicketType(data);
+                    break;
+                } catch (InvalidArgument e) {
+                    System.out.println(e.getMessage());
+                }
             }
-        }
-        switch (data) {
-            case "VIP":
-                ticketType = TicketType.VIP;
-                break;
-            case "USUAL":
-                ticketType = TicketType.USUAL;
-                break;
-            case "BUDGETARY":
-                ticketType = TicketType.BUDGETARY;
-                break;
-            case "CHEAP":
-                ticketType = TicketType.CHEAP;
-                break;
+            switch (data) {
+                case "VIP":
+                    ticketType = TicketType.VIP;
+                    break;
+                case "USUAL":
+                    ticketType = TicketType.USUAL;
+                    break;
+                case "BUDGETARY":
+                    ticketType = TicketType.BUDGETARY;
+                    break;
+                case "CHEAP":
+                    ticketType = TicketType.CHEAP;
+                    break;
+            }
         }
 
         System.out.println("Do you want to enter an event? Don't enter anything if you don't want");
@@ -271,8 +283,17 @@ public class Main {
 
     }
 
-    public static Ticket getElementFromFile(MyTreeSet treeSet){
+    public static Ticket getElementFromFile(MyTreeSet treeSet) {
         return null;
+    }
+
+    static int checkId(String data) {
+        try{
+            int id = Integer.parseInt(data);
+            return id;
+        } catch (NumberFormatException e){
+            return -1;
+        }
     }
 
     static void checkName(String data) throws InvalidArgument {

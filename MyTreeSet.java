@@ -91,6 +91,10 @@ public class MyTreeSet {
         float price = 0f;
         float ppPrice = 0f;
         Set <Float> uniquePrices = new TreeSet<>();
+        if (myTreeSet.size() == 1){
+            uniquePrices.add(myTreeSet.first().getPrice());
+            return uniquePrices;
+        }
         boolean first = true, second = true;
         for (Ticket t : myTreeSet) {
             if (first) {
