@@ -23,6 +23,7 @@ public class FileProcessor extends Processor {
     private int lineNum = 0;
     private boolean script;
     private int skip = 0;
+    private boolean exit = false;
 
     public FileProcessor(String path, boolean script) {
         this.path = path;
@@ -33,6 +34,10 @@ public class FileProcessor extends Processor {
 
     public String[] getData() {
         return data;
+    }
+
+    public boolean isExit() {
+        return exit;
     }
 
     public void setData(String[] data) {
@@ -47,13 +52,14 @@ public class FileProcessor extends Processor {
             data[i] = args[i + 1];
         }
         setData(data);
-        Main.doCommand(command, treeSet, this);
+        if (Main.doCommand(command, treeSet, this))
+            exit = true;
     }
 
     public void readData(MyTreeSet treeSet) {
         try {
             String[] data = read().split("\\r\\n");
-            if (script) {
+            if (script && !exit) {
                 for (String line : data) {
                     readCommand(treeSet, line);
                 }

@@ -116,6 +116,9 @@ public class Main {
                 String path = processor.getName();
                 FileProcessor fileProcessor = new FileProcessor(path, true);
                 fileProcessor.readData(treeSet);
+                if (fileProcessor.isExit()){
+                    exit = true;
+                }
                 break;
             case "exit":
                 exit = true;
