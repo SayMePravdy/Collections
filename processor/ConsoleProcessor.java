@@ -12,10 +12,10 @@ import data.Coordinates;
 
 import static resources.Resources.*;
 
-
+/**
+ * Класс отвечающий за работу с данными из консоли
+ */
 public class ConsoleProcessor extends Processor {
-
-
 
     public Ticket getTicket(MyTreeSet treeSet) {
 

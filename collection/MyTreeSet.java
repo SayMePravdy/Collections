@@ -2,15 +2,32 @@ package collection;
 
 import data.Ticket;
 
-import java.util.ConcurrentModificationException;
-import java.util.NavigableSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+
+/**
+ * Класс коллекции, с которой мы работаем
+ */
 
 public class MyTreeSet {
-    private NavigableSet<Ticket> myTreeSet = new TreeSet<>();
+    /**
+     * Наша заданная колекция
+     */
+    private NavigableSet<Ticket> myTreeSet;
     private int cntEvent = 0;
+    private Date date = null;
 
+    /**
+     * Конструктор, в котором указываем компораторы
+     */
+    public MyTreeSet(){
+        Comparator<Ticket> comp = new TicketPriceComparator().thenComparing(new TicketIdComparator());
+        myTreeSet = new TreeSet<>(comp);
+    }
+    /**
+     * Увелечние номера события для билетов, для автоматической генерации id у поля Event
+     */
     public void incrementEvent() {
         cntEvent++;
     }
@@ -19,13 +36,27 @@ public class MyTreeSet {
         return cntEvent;
     }
 
+    /**
+     * Добавление элемента в коллекцию
+     */
     public void add(Ticket ticket) {
+        if (date == null){
+            date = new Date();
+        }
         myTreeSet.add(ticket);
     }
+
+    /**
+     *  Удаление элемента коллекции
+     */
 
     public void remove(Ticket ticket) {
         myTreeSet.remove(ticket);
     }
+
+    /**
+     * Удаление элемента коллекции по его id
+     */
 
     public boolean remove(int id) {
         Ticket ticket = null;
@@ -34,22 +65,24 @@ public class MyTreeSet {
                 ticket = t;
             }
         }
-        if (ticket == null){
+        if (ticket == null) {
             return false;
-        }else{
+        } else {
             myTreeSet.remove(ticket);
             return true;
         }
     }
 
-    public void removeAll(NavigableSet<Ticket> set){
-        myTreeSet.removeAll(set);
-    }
-
+    /**
+     * Очистка коллекции
+     */
     public void clear() {
         myTreeSet.clear();
     }
 
+    /**
+     * Проверка является ли билет максимальным в коллекции
+     */
     public boolean isMax(Ticket ticket) {
         for (Ticket t : myTreeSet) {
             if (t.getPrice() > ticket.getPrice())
@@ -58,6 +91,10 @@ public class MyTreeSet {
         return true;
     }
 
+
+    /**
+     * Проверка является ли билет минимальным в коллекции
+     */
     public boolean isMin(Ticket ticket) {
         for (Ticket t : myTreeSet) {
             if (t.getPrice() < ticket.getPrice())
@@ -66,10 +103,17 @@ public class MyTreeSet {
         return true;
     }
 
+
+    /**
+     * УДаление всех элементов коллекции больших заднного
+     */
     public void headSet(Ticket ticket, boolean incl) {
-        myTreeSet =  myTreeSet.headSet(ticket, incl);
+        myTreeSet = myTreeSet.headSet(ticket, incl);
     }
 
+    /**
+     * Нахождение суммы полей discount
+     */
     public int sumDiscount() {
         int sum = 0;
         for (Ticket t : myTreeSet) {
@@ -78,6 +122,9 @@ public class MyTreeSet {
         return sum;
     }
 
+    /**
+     * Нахождение билета с максимальным комментарием
+     */
     public Ticket maxComment() {
         String max = "";
         Ticket ticket = null;
@@ -90,18 +137,39 @@ public class MyTreeSet {
         return ticket;
     }
 
+    /**
+     * Вывод в консоль всех элемнтов коллекции
+     */
     public void print() {
         for (Ticket ticket : myTreeSet) {
             System.out.println(ticket);
         }
     }
 
+    /**
+     * Сохранение коллекции в файл
+     */
+    public void save(FileWriter fileWriter) {
+        try {
+            for (Ticket ticket : myTreeSet) {
+                fileWriter.write(ticket.toString() + "\n");
+            }
+        } catch (IOException e) {
+            System.out.println("Output file is missing");
+        }
+
+    }
+
+
+    /**
+     * Нахождение уникальных полей price
+     */
     public Set<Float> uniquePrices() {
         float prevPrice = 0f;
         float price = 0f;
         float ppPrice = 0f;
-        Set <Float> uniquePrices = new TreeSet<>();
-        if (myTreeSet.size() == 1){
+        Set<Float> uniquePrices = new TreeSet<>();
+        if (myTreeSet.size() == 1) {
             uniquePrices.add(myTreeSet.first().getPrice());
             return uniquePrices;
         }
@@ -115,29 +183,35 @@ public class MyTreeSet {
                     second = false;
                     prevPrice = price;
                     price = t.getPrice();
-                    if (prevPrice != price){
+                    if (prevPrice != price) {
                         uniquePrices.add(prevPrice);
                     }
                 } else {
                     ppPrice = prevPrice;
                     prevPrice = price;
                     price = t.getPrice();
-                    if (prevPrice != ppPrice && prevPrice != price){
+                    if (prevPrice != ppPrice && prevPrice != price) {
                         uniquePrices.add(prevPrice);
                     }
                 }
             }
         }
-        if (price != prevPrice){
+        if (price != prevPrice) {
             uniquePrices.add(price);
         }
         return uniquePrices;
     }
-
+    /**
+     * Выод информации о коллекции
+     */
     public void showInfo() {
-        System.out.println(myTreeSet);//??
+        System.out.println("Type: Ticket\n" + date + "\n" + myTreeSet.size());
     }
 
+
+    /**
+     * Нахождение размера коллекции
+     */
     public int size() {
         return myTreeSet.size();
     }

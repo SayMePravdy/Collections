@@ -6,15 +6,18 @@ import data.Event;
 import data.Ticket;
 import exceptions.InvalidArgument;
 import exceptions.WrongArgumentCount;
-import main.Main;
+import main.Execute;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.ZonedDateTime;
 
 import static resources.Resources.*;
+
+/**
+ * Класс, отвечающий за работу с входными данными из файла
+ */
 
 public class FileProcessor extends Processor {
 
@@ -44,7 +47,7 @@ public class FileProcessor extends Processor {
         this.data = data;
     }
 
-    public void readCommand(MyTreeSet treeSet, String line) {
+    public void readCommand(MyTreeSet treeSet, String line) throws IOException {
         String[] args = line.split(",");
         String command = args[0];
         String[] data = new String[args.length - 1];
@@ -52,7 +55,7 @@ public class FileProcessor extends Processor {
             data[i] = args[i + 1];
         }
         setData(data);
-        if (Main.doCommand(command, treeSet, this))
+        if (Execute.doCommand(command, treeSet, this))
             exit = true;
     }
 

@@ -1,4 +1,4 @@
 add,7,7,7,7,7,7
-update id,2,1,1,1,1,1,1
-remove_by_id id,2
+update,2,1,1,1,1,1,1
+remove_by_id,2
 execute_script,C:\ИТМО\Прога\Laba5\src\resources\Script2.csv

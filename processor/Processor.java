@@ -9,6 +9,10 @@ import exceptions.InvalidArgument;
 import static resources.Resources.*;
 import static resources.Resources.MIN;
 
+/**
+ * Класс оболочка для считывания и обработки данных
+ */
+
 public abstract class Processor {
     protected String ticketName, eventName, comment;
     protected float price, y;
@@ -19,7 +23,14 @@ public abstract class Processor {
     protected TicketType ticketType = null;
     protected Event event = null;
 
+    /**
+     * Метод, считывающий билет
+     */
     public abstract Ticket getTicket(MyTreeSet treeSet);
+
+    /**
+     * Метод, считывающий ббилет, с принудительным указанием id
+     */
     public Ticket getTicket(MyTreeSet treeSet, int id){
         Ticket ticket = getTicket(treeSet);
         ticket.setId(id);
