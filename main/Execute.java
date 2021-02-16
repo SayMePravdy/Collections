@@ -125,10 +125,18 @@ public class Execute {
                 break;
             case "execute_script":
                 String path = processor.getName();
-                FileProcessor fileProcessor = new FileProcessor(path, true);
-                fileProcessor.readData(treeSet);
-                if (fileProcessor.isExit()){
-                    exit = true;
+                String check = "";
+                if (processor instanceof FileProcessor){
+                    check = ((FileProcessor) processor).getPath();
+                }
+                if (path.equals(check)){
+                    System.out.println("Can't execute same script in this script");
+                }else{
+                    FileProcessor fileProcessor = new FileProcessor(path, true);
+                    fileProcessor.readData(treeSet);
+                    if (fileProcessor.isExit()){
+                        exit = true;
+                    }
                 }
                 break;
             case "save":

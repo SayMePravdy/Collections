@@ -28,6 +28,11 @@ public class FileProcessor extends Processor {
     private int skip = 0;
     private boolean exit = false;
 
+    public String getPath(){
+        return path;
+    }
+
+
     public FileProcessor(String path, boolean script) {
         this.path = path;
         this.script = script;
