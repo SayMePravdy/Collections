@@ -115,6 +115,19 @@ public class Ticket {
                 '}';
     }
 
+    public String toCsv() {
+        StringBuilder s = new StringBuilder();
+        s.append(name + "," + coordinates.toCsv() + "," + price + "," + discount + "," + comment);
+        if (type != null) {
+            s.append("," + type.toCsv());
+        }
+        if (event != null) {
+            s.append("," + event.toCsv());
+        }
+
+        return s.toString();
+    }
+
 
     @Override
     public boolean equals(Object o) {

@@ -149,7 +149,7 @@ public class ConsoleProcessor extends Processor {
                 price = checkPrice(data);
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Incorrect data. Please enter int argument");
+                System.out.println("Incorrect data. Please enter float argument");
             } catch (InvalidArgument e) {
                 System.out.println(e.getMessage());
             }

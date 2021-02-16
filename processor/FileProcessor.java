@@ -66,7 +66,10 @@ public class FileProcessor extends Processor {
 
     public void readData(MyTreeSet treeSet) {
         try {
-            String[] data = read().split("\\r\\n");
+            String[] data = read().split("\\n");
+            for (int i = 0; i < data.length; i++){
+                data[i] = data[i].replace("\r", "");
+            }
             if (script && !exit) {
                 for (String line : data) {
                     readCommand(treeSet, line);
@@ -120,7 +123,8 @@ public class FileProcessor extends Processor {
 
     public Ticket getTicket(MyTreeSet treeSet) {
         try {
-            String line = read().split("\\r\\n")[lineNum];
+            String line = read().split("\\n")[lineNum];
+            line = line.replace("\r", "");
             lineNum++;
             String[] args;
             if (script) {
@@ -155,6 +159,7 @@ public class FileProcessor extends Processor {
                             eventName = args[7];
                             minAge = Integer.parseInt(args[8]);
                             ticketsCount = checkTicketsCount(args[9]);
+                            event = new Event(FIRST_EVENT_ID + treeSet.getCntEvent(), eventName, minAge, ticketsCount);
                         } else {
                             if (args.length == 9) {
                                 treeSet.incrementEvent();
@@ -162,6 +167,7 @@ public class FileProcessor extends Processor {
                                 eventName = args[6];
                                 minAge = Integer.parseInt(args[7]);
                                 ticketsCount = checkTicketsCount(args[8]);
+                                event = new Event(FIRST_EVENT_ID + treeSet.getCntEvent(), eventName, minAge, ticketsCount);
                             } else {
                                 throw new WrongArgumentCount("Wrong number of arguments");
                             }
@@ -172,7 +178,7 @@ public class FileProcessor extends Processor {
                 return null;
             }
 
-            return new Ticket(FIRST_TICKET_ID + treeSet.size(), ticketName, new Coordinates(x, y), ZonedDateTime.now(), price, discount, comment, ticketType, new Event(FIRST_EVENT_ID + treeSet.getCntEvent(), eventName, minAge, ticketsCount));
+            return new Ticket(FIRST_TICKET_ID + treeSet.size(), ticketName, new Coordinates(x, y), ZonedDateTime.now(), price, discount, comment, ticketType, event);
         } catch (IOException e) {
             return null;
         }

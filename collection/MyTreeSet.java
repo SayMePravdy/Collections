@@ -152,7 +152,7 @@ public class MyTreeSet {
     public void save(FileWriter fileWriter) {
         try {
             for (Ticket ticket : myTreeSet) {
-                fileWriter.write(ticket.toString() + "\n");
+                fileWriter.write("\n" + ticket.toCsv());
             }
         } catch (IOException e) {
             System.out.println("Output file is missing");

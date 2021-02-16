@@ -12,7 +12,9 @@ import static resources.Resources.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.NavigableSet;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 
 /**
@@ -23,15 +25,23 @@ public class Execute {
     /**
      * Переменная окружения выходного файла
      */
-    private final static String output = "C:\\ИТМО\\Прога\\Laba5\\src\\resources\\Output.txt";
+    private static String path;
+    private static NavigableSet<String> scripts = new TreeSet<>();
 
     public static void main(String[] args) throws InvalidArgument {
-        String path = "C:\\ИТМО\\Прога\\Laba5\\src\\resources\\File.csv";
+
+        path = System.getenv().get("LAB5");
+
 
         MyTreeSet treeSet = new MyTreeSet();
 
-        FileProcessor fileProcessor = new FileProcessor(path, false);
-        fileProcessor.readData(treeSet);
+        if (path != null){
+            FileProcessor fileProcessor = new FileProcessor(path, false);
+            fileProcessor.readData(treeSet);
+        } else {
+            System.out.println("File not found");
+        }
+
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter a command");
@@ -124,28 +134,26 @@ public class Execute {
                 }
                 break;
             case "execute_script":
-                String path = processor.getName();
-                String check = "";
-                if (processor instanceof FileProcessor){
-                    check = ((FileProcessor) processor).getPath();
-                }
-                if (path.equals(check)){
-                    System.out.println("Can't execute same script in this script");
+                String file = processor.getName();
+                if (scripts.contains(file)){
+                    System.out.println("Error! Scripts call each other");
                 }else{
-                    FileProcessor fileProcessor = new FileProcessor(path, true);
+                    scripts.add(file);
+                    FileProcessor fileProcessor = new FileProcessor(file, true);
                     fileProcessor.readData(treeSet);
                     if (fileProcessor.isExit()){
                         exit = true;
                     }
+                    scripts.remove(file);
                 }
                 break;
             case "save":
                 try {
-                    FileWriter fileWriter = new FileWriter(output);
+                    FileWriter fileWriter = new FileWriter(path,true);
                     treeSet.save(fileWriter);
                     fileWriter.close();
                 } catch (IOException e){
-                    System.out.println("Output file is missing");
+                    System.out.println("You have no rights");
                 }
                 break;
             case "exit":

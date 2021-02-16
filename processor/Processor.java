@@ -65,7 +65,7 @@ public abstract class Processor {
     static float checkPrice(String data) throws InvalidArgument, NumberFormatException {
         float price = Float.parseFloat(data);
         if (price <= MIN) {
-            throw new InvalidArgument(String.format("Price must be more then %f", MIN));
+            throw new InvalidArgument(String.format("Price must be more then %d", MIN));
         }
         return price;
     }

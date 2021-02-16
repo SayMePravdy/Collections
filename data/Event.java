@@ -22,4 +22,8 @@ public class Event {
                 ", ticketsCount=" + ticketsCount +
                 '}';
     }
+
+    public String toCsv() {
+        return name + "," + minAge + "," + ticketsCount;
+    }
 }
