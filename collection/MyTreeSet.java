@@ -84,11 +84,10 @@ public class MyTreeSet {
      * Проверка является ли билет максимальным в коллекции
      */
     public boolean isMax(Ticket ticket) {
-        for (Ticket t : myTreeSet) {
-            if (t.getPrice() > ticket.getPrice())
-                return false;
+        if (ticket.compareTo(myTreeSet.last()) > 0){
+            return true;
         }
-        return true;
+        return false;
     }
 
 
@@ -96,11 +95,10 @@ public class MyTreeSet {
      * Проверка является ли билет минимальным в коллекции
      */
     public boolean isMin(Ticket ticket) {
-        for (Ticket t : myTreeSet) {
-            if (t.getPrice() < ticket.getPrice())
-                return false;
+        if (ticket.compareTo(myTreeSet.first()) < 0){
+            return true;
         }
-        return true;
+        return false;
     }
 
 

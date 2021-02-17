@@ -3,7 +3,7 @@ package data;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-public class Ticket {
+public class Ticket implements Comparable<Ticket> {
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -130,15 +130,20 @@ public class Ticket {
 
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ticket ticket = (Ticket) o;
-        return id == ticket.id && Float.compare(ticket.price, price) == 0 && discount == ticket.discount && Objects.equals(name, ticket.name) && Objects.equals(coordinates, ticket.coordinates) && Objects.equals(creationDate, ticket.creationDate) && Objects.equals(comment, ticket.comment) && type == ticket.type && Objects.equals(event, ticket.event);
+    public int hashCode() {
+        return Objects.hash(id, name, coordinates, creationDate, price, discount, comment, type, event);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, name, coordinates, creationDate, price, discount, comment, type, event);
+    public int compareTo(Ticket o) {
+        if (this.getPrice() - o.getPrice() > 0) {
+            return 1;
+        }
+
+        if (this.getPrice() - o.getPrice() < 0) {
+            return -1;
+        }
+
+        return this.getId() - o.getId();
     }
 }

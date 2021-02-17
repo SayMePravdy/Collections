@@ -187,7 +187,7 @@ public class ConsoleProcessor extends Processor {
                 x = Double.parseDouble(data);
                 break;
             } catch (NumberFormatException e) {
-                System.out.println(e.getMessage());
+                System.out.println("Enter a double argument");
             }
         }
         return x;
