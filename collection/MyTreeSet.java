@@ -139,9 +139,14 @@ public class MyTreeSet {
      * Вывод в консоль всех элемнтов коллекции
      */
     public void print() {
-        for (Ticket ticket : myTreeSet) {
-            System.out.println(ticket);
+        if (myTreeSet.size() == 0){
+            System.out.println("Collection is Empty");
+        } else{
+            for (Ticket ticket : myTreeSet) {
+                System.out.println(ticket);
+            }
         }
+
     }
 
     /**

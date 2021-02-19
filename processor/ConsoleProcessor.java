@@ -33,7 +33,7 @@ public class ConsoleProcessor extends Processor {
 
         ticketType = getTicketType(scanner);
 
-        event = getEventName(scanner, treeSet);
+        event = getEvent(scanner, treeSet);
 
 
         return new Ticket(FIRST_TICKET_ID + treeSet.size(), ticketName, new Coordinates(x, y), ZonedDateTime.now(), price, discount, comment, ticketType, event);
@@ -42,7 +42,7 @@ public class ConsoleProcessor extends Processor {
     private TicketType getTicketType(Scanner scanner) {
         String data;
         TicketType ticketType = null;
-        System.out.println("Enter ticket type. Don't enter anything if you don't want");
+        System.out.println("Enter ticket type. Choose one of:VIP, USUAL, BUDGETARY, CHEAP. Don't enter anything if you don't want");
         data = scanner.nextLine();
         if (!data.isEmpty()) {
             while (true) {
@@ -59,7 +59,7 @@ public class ConsoleProcessor extends Processor {
         return ticketType;
     }
 
-    private Event getEventName(Scanner scanner, MyTreeSet treeSet) {
+    private Event getEvent(Scanner scanner, MyTreeSet treeSet) {
         String data;
         Event event = null;
         String eventName = "";

@@ -1,4 +1,5 @@
 add,7,7,7,7,7,7
-update,2,1,1,1,1,1,1
-remove_by_id,2
-execute_script,C:\ИТМО\Прога\Laba5.3\src\resources\Script2.csv
+update,2,1,1,1,1,1,1,USUAL
+show
+exit
+add,7,7,7,7,7,800000000000000

@@ -33,7 +33,9 @@ public abstract class Processor {
      */
     public Ticket getTicket(MyTreeSet treeSet, int id){
         Ticket ticket = getTicket(treeSet);
-        ticket.setId(id);
+        if (ticket != null){
+            ticket.setId(id);
+        }
         return ticket;
     }
     public abstract int getId();

@@ -70,9 +70,13 @@ public class FileProcessor extends Processor {
             for (int i = 0; i < data.length; i++){
                 data[i] = data[i].replace("\r", "");
             }
-            if (script && !exit) {
+            if (script) {
                 for (String line : data) {
-                    readCommand(treeSet, line);
+                    if (!exit){
+                        readCommand(treeSet, line);
+                    }else {
+                        break;
+                    }
                 }
             } else {
                 int num = 0;
@@ -136,7 +140,7 @@ public class FileProcessor extends Processor {
             } else {
                 args = line.split(",");
             }
-
+            skip = 1;
             try {
                 checkName(args[0]);
                 event = null;

@@ -20,7 +20,7 @@ import java.util.TreeSet;
 /**
  * @autor Соснило Михаил, P3113
  * Класс отвечающий за выполнение интерактивного режима
-*/
+ */
 public class Execute {
     /**
      * Переменная окружения выходного файла
@@ -35,7 +35,7 @@ public class Execute {
 
         MyTreeSet treeSet = new MyTreeSet();
 
-        if (path != null){
+        if (path != null) {
             FileProcessor fileProcessor = new FileProcessor(path, false);
             fileProcessor.readData(treeSet);
         } else {
@@ -75,6 +75,8 @@ public class Execute {
                 Ticket ticket = processor.getTicket(treeSet);
                 if (ticket != null) {
                     treeSet.add(ticket);
+                } else {
+                    System.out.println("Incorrect data in script");
                 }
                 break;
             case "update":
@@ -83,7 +85,12 @@ public class Execute {
                     if (!treeSet.remove(id)) {
                         System.out.println("Element with your id not found");
                     } else {
-                        treeSet.add(processor.getTicket(treeSet, id));
+                        ticket = processor.getTicket(treeSet, id);
+                        if (ticket != null)
+                            treeSet.add(ticket);
+                        else {
+                            System.out.println("Incorrect data in script");
+                        }
                     }
                 } else {
                     System.out.println("Incorrect id");
@@ -104,23 +111,36 @@ public class Execute {
                 break;
             case "add_if_max":
                 ticket = processor.getTicket(treeSet);
-                if (treeSet.isMax(ticket)) {
-                    treeSet.add(ticket);
+                if (ticket != null){
+                    if (treeSet.isMax(ticket)) {
+                        treeSet.add(ticket);
+                    } else {
+                        System.out.println("Element isn't maximal");
+                    }
                 } else {
-                    System.out.println("Element isn't maximal");
+                    System.out.println("Incorrect data in script");
                 }
+
                 break;
             case "add_if_min":
                 ticket = processor.getTicket(treeSet);
-                if (treeSet.isMin(ticket)) {
-                    treeSet.add(ticket);
+                if (ticket != null){
+                    if (treeSet.isMin(ticket)) {
+                        treeSet.add(ticket);
+                    } else {
+                        System.out.println("Element isn't maximal");
+                    }
                 } else {
-                    System.out.println("Element isn't minimal");
+                    System.out.println("Incorrect data in script");
                 }
                 break;
             case "remove_greater":
                 ticket = processor.getTicket(treeSet);
-                treeSet.headSet(ticket, false);
+                if (ticket != null) {
+                    treeSet.headSet(ticket, false);
+                }else{
+                    System.out.println("Incorrect data in script");
+                }
                 break;
             case "sum_of_discount":
                 System.out.println(treeSet.sumDiscount());
@@ -135,13 +155,13 @@ public class Execute {
                 break;
             case "execute_script":
                 String file = processor.getName();
-                if (scripts.contains(file)){
+                if (scripts.contains(file)) {
                     System.out.println("Error! Scripts call each other");
-                }else{
+                } else {
                     scripts.add(file);
                     FileProcessor fileProcessor = new FileProcessor(file, true);
                     fileProcessor.readData(treeSet);
-                    if (fileProcessor.isExit()){
+                    if (fileProcessor.isExit()) {
                         exit = true;
                     }
                     scripts.remove(file);
@@ -149,10 +169,10 @@ public class Execute {
                 break;
             case "save":
                 try {
-                    FileWriter fileWriter = new FileWriter(path,true);
+                    FileWriter fileWriter = new FileWriter(path, true);
                     treeSet.save(fileWriter);
                     fileWriter.close();
-                } catch (IOException e){
+                } catch (IOException e) {
                     System.out.println("You have no rights");
                 }
                 break;
