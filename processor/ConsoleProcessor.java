@@ -64,9 +64,13 @@ public class ConsoleProcessor extends Processor {
         Event event = null;
         String eventName = "";
         int minAge, ticketsCount;
-        System.out.println("Do you want to enter an event? Don't enter anything if you don't want");
+        System.out.println("Do you want to enter an event? Enter yes or no?");
         data = scanner.nextLine();
-        if (!data.isEmpty()) {
+        while (!data.equals("yes") && !data.equals("no")){
+            System.out.println("Incorrect data");
+            data = scanner.nextLine();
+        }
+        if (data.equals("yes")) {
             treeSet.incrementEvent();
 
             System.out.println("Enter event name");

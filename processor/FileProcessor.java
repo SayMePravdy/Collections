@@ -69,6 +69,7 @@ public class FileProcessor extends Processor {
             String[] data = read().split("\\n");
             for (int i = 0; i < data.length; i++){
                 data[i] = data[i].replace("\r", "");
+                data[i] = data[i].trim();
             }
             if (script) {
                 for (String line : data) {
@@ -129,6 +130,7 @@ public class FileProcessor extends Processor {
         try {
             String line = read().split("\\n")[lineNum];
             line = line.replace("\r", "");
+            line = line.trim();
             lineNum++;
             String[] args;
             if (script) {
@@ -173,7 +175,7 @@ public class FileProcessor extends Processor {
                                 ticketsCount = checkTicketsCount(args[8]);
                                 event = new Event(FIRST_EVENT_ID + treeSet.getCntEvent(), eventName, minAge, ticketsCount);
                             } else {
-                                throw new WrongArgumentCount("Wrong number of arguments");
+                                throw new WrongArgumentCount("");
                             }
                         }
                     }

@@ -169,11 +169,14 @@ public class Execute {
                 break;
             case "save":
                 try {
-                    FileWriter fileWriter = new FileWriter(path, true);
+                    FileWriter fileWriter = new FileWriter(path);
                     treeSet.save(fileWriter);
                     fileWriter.close();
+                    System.out.println("Data is saved in " + path);
                 } catch (IOException e) {
                     System.out.println("You have no rights");
+                } catch (NullPointerException e){
+                    System.out.println("File not found");
                 }
                 break;
             case "exit":

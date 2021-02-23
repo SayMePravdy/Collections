@@ -21,10 +21,11 @@ public class MyTreeSet {
     /**
      * Конструктор, в котором указываем компораторы
      */
-    public MyTreeSet(){
+    public MyTreeSet() {
         Comparator<Ticket> comp = new TicketPriceComparator().thenComparing(new TicketIdComparator());
         myTreeSet = new TreeSet<>(comp);
     }
+
     /**
      * Увелечние номера события для билетов, для автоматической генерации id у поля Event
      */
@@ -40,14 +41,14 @@ public class MyTreeSet {
      * Добавление элемента в коллекцию
      */
     public void add(Ticket ticket) {
-        if (date == null){
+        if (date == null) {
             date = new Date();
         }
         myTreeSet.add(ticket);
     }
 
     /**
-     *  Удаление элемента коллекции
+     * Удаление элемента коллекции
      */
 
     public void remove(Ticket ticket) {
@@ -84,7 +85,7 @@ public class MyTreeSet {
      * Проверка является ли билет максимальным в коллекции
      */
     public boolean isMax(Ticket ticket) {
-        if (ticket.compareTo(myTreeSet.last()) > 0){
+        if (ticket.compareTo(myTreeSet.last()) > 0) {
             return true;
         }
         return false;
@@ -95,7 +96,7 @@ public class MyTreeSet {
      * Проверка является ли билет минимальным в коллекции
      */
     public boolean isMin(Ticket ticket) {
-        if (ticket.compareTo(myTreeSet.first()) < 0){
+        if (ticket.compareTo(myTreeSet.first()) < 0) {
             return true;
         }
         return false;
@@ -139,9 +140,9 @@ public class MyTreeSet {
      * Вывод в консоль всех элемнтов коллекции
      */
     public void print() {
-        if (myTreeSet.size() == 0){
+        if (myTreeSet.size() == 0) {
             System.out.println("Collection is Empty");
-        } else{
+        } else {
             for (Ticket ticket : myTreeSet) {
                 System.out.println(ticket);
             }
@@ -152,13 +153,12 @@ public class MyTreeSet {
     /**
      * Сохранение коллекции в файл
      */
-    public void save(FileWriter fileWriter) {
+    public void save(FileWriter fileWriter) throws NullPointerException {
         try {
             for (Ticket ticket : myTreeSet) {
                 fileWriter.write("\n" + ticket.toCsv());
             }
         } catch (IOException e) {
-            System.out.println("Output file is missing");
         }
     }
 
@@ -203,6 +203,7 @@ public class MyTreeSet {
         }
         return uniquePrices;
     }
+
     /**
      * Выод информации о коллекции
      */
