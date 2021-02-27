@@ -29,7 +29,7 @@ public abstract class Processor {
     public abstract Ticket getTicket(MyTreeSet treeSet);
 
     /**
-     * Метод, считывающий ббилет, с принудительным указанием id
+     * Метод, считывающий билет, с принудительным указанием id
      */
     public Ticket getTicket(MyTreeSet treeSet, int id){
         Ticket ticket = getTicket(treeSet);
@@ -40,8 +40,9 @@ public abstract class Processor {
     }
     public abstract int getId();
     public abstract String getName();
+    public abstract void readData(MyTreeSet treeSet);
 
-    public static int checkId(String data) {
+    public int checkId(String data) {
         try {
             int id = Integer.parseInt(data);
             return id;

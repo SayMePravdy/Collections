@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.Scanner;
 
 import data.Coordinates;
+import main.Execute;
 
 import static resources.Resources.*;
 
@@ -200,13 +201,31 @@ public class ConsoleProcessor extends Processor {
     public int getId(){
         System.out.println("Enter id");
         Scanner scanner = new Scanner(System.in);
-        return checkId(scanner.nextLine());
+        int id;
+        while (true) {
+            id = checkId(scanner.nextLine());
+            if (id != -1 ) {
+                return id;
+            }
+            System.out.println("Incorrect data. Please enter int argument");
+        }
     }
 
     public String getName() {
         System.out.println("Enter file name");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
+    }
+
+    @Override
+    public void readData(MyTreeSet treeSet) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a command");
+        String command = scanner.nextLine().trim();
+        while (!Execute.doCommand(command, treeSet, this)) {
+            System.out.println("Enter a command");
+            command = scanner.nextLine().trim();
+        }
     }
 
     private String getTicketName(Scanner scanner) {

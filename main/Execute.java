@@ -41,19 +41,10 @@ public class Execute {
         } else {
             System.out.println("File not found");
         }
+        
+        ConsoleProcessor consoleProcessor = new ConsoleProcessor();
+        consoleProcessor.readData(treeSet);
 
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter a command");
-        String command = scanner.nextLine();
-
-        while (true) {
-            if (doCommand(command, treeSet, new ConsoleProcessor())) {
-                break;
-            }
-            System.out.println("Enter a command");
-            command = scanner.nextLine();
-        }
     }
 
     /**
@@ -111,7 +102,7 @@ public class Execute {
                 break;
             case "add_if_max":
                 ticket = processor.getTicket(treeSet);
-                if (ticket != null){
+                if (ticket != null) {
                     if (treeSet.isMax(ticket)) {
                         treeSet.add(ticket);
                     } else {
@@ -124,7 +115,7 @@ public class Execute {
                 break;
             case "add_if_min":
                 ticket = processor.getTicket(treeSet);
-                if (ticket != null){
+                if (ticket != null) {
                     if (treeSet.isMin(ticket)) {
                         treeSet.add(ticket);
                     } else {
@@ -137,8 +128,8 @@ public class Execute {
             case "remove_greater":
                 ticket = processor.getTicket(treeSet);
                 if (ticket != null) {
-                    treeSet.headSet(ticket, false);
-                }else{
+                    treeSet.removeGreater(ticket);
+                } else {
                     System.out.println("Incorrect data in script");
                 }
                 break;
@@ -175,7 +166,7 @@ public class Execute {
                     System.out.println("Data is saved in " + path);
                 } catch (IOException e) {
                     System.out.println("You have no rights");
-                } catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     System.out.println("File not found");
                 }
                 break;
@@ -183,7 +174,7 @@ public class Execute {
                 exit = true;
                 break;
             default:
-                System.out.println("Command not found");
+                System.out.println("Command \"" + command + "\" doesn't exist");
                 break;
         }
         return exit;

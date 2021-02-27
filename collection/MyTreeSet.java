@@ -85,18 +85,10 @@ public class MyTreeSet {
      * Проверка является ли билет максимальным в коллекции
      */
     public boolean isMax(Ticket ticket) {
-        if (ticket.compareTo(myTreeSet.last()) > 0) {
+        if (myTreeSet.isEmpty())
             return true;
-        }
-        return false;
-    }
 
-
-    /**
-     * Проверка является ли билет минимальным в коллекции
-     */
-    public boolean isMin(Ticket ticket) {
-        if (ticket.compareTo(myTreeSet.first()) < 0) {
+        if (ticket.compareTo(myTreeSet.last()) > 0) {
             return true;
         }
         return false;
@@ -106,9 +98,28 @@ public class MyTreeSet {
     /**
      * УДаление всех элементов коллекции больших заднного
      */
-    public void headSet(Ticket ticket, boolean incl) {
-        myTreeSet = myTreeSet.headSet(ticket, incl);
+    public void removeGreater(Ticket ticket) {
+        myTreeSet.removeAll(myTreeSet.tailSet(ticket, true));
     }
+
+
+    /**
+     * Проверка является ли билет минимальным в коллекции
+     */
+    public boolean isMin(Ticket ticket) {
+        if (myTreeSet.isEmpty())
+            return true;
+
+        if (ticket.compareTo(myTreeSet.first()) < 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+//    public void headSet(Ticket ticket, boolean incl) {
+//        myTreeSet = myTreeSet.headSet(ticket, incl);
+//    }
 
     /**
      * Нахождение суммы полей discount
@@ -156,7 +167,7 @@ public class MyTreeSet {
     public void save(FileWriter fileWriter) throws NullPointerException {
         try {
             for (Ticket ticket : myTreeSet) {
-                fileWriter.write("\n" + ticket.toCsv());
+                fileWriter.write(ticket.toCsv() + "\n");
             }
         } catch (IOException e) {
         }
