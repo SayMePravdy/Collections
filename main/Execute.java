@@ -36,12 +36,17 @@ public class Execute {
         MyTreeSet treeSet = new MyTreeSet();
 
         if (path != null) {
-            FileProcessor fileProcessor = new FileProcessor(path, false);
+            FileProcessor fileProcessor = null;
+            try {
+                fileProcessor = new FileProcessor(path, false);
+            } catch (IOException e) {
+                System.out.println("Something wrong with the file: " + path);
+            }
             fileProcessor.readData(treeSet);
         } else {
             System.out.println("File not found");
         }
-        
+
         ConsoleProcessor consoleProcessor = new ConsoleProcessor();
         consoleProcessor.readData(treeSet);
 
@@ -150,7 +155,12 @@ public class Execute {
                     System.out.println("Error! Scripts call each other");
                 } else {
                     scripts.add(file);
-                    FileProcessor fileProcessor = new FileProcessor(file, true);
+                    FileProcessor fileProcessor = null;
+                    try {
+                        fileProcessor = new FileProcessor(file, true);
+                    } catch (IOException e) {
+                        System.out.println("Something wrong with the file which you enter");
+                    }
                     fileProcessor.readData(treeSet);
                     if (fileProcessor.isExit()) {
                         exit = true;
@@ -159,10 +169,8 @@ public class Execute {
                 }
                 break;
             case "save":
-                try {
-                    FileWriter fileWriter = new FileWriter(path);
+                try (FileWriter fileWriter = new FileWriter(path)){
                     treeSet.save(fileWriter);
-                    fileWriter.close();
                     System.out.println("Data is saved in " + path);
                 } catch (IOException e) {
                     System.out.println("You have no rights");

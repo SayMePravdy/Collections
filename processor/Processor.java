@@ -5,6 +5,7 @@ import data.Event;
 import data.Ticket;
 import data.TicketType;
 import exceptions.InvalidArgument;
+import exceptions.NullTicketArgument;
 
 import static resources.Resources.*;
 import static resources.Resources.MIN;
@@ -51,9 +52,9 @@ public abstract class Processor {
         }
     }
 
-    static void checkName(String data) throws InvalidArgument {
+    static void checkName(String data) throws NullTicketArgument {
         if (data.isEmpty()){
-            throw new InvalidArgument("Incorrect name");
+            throw new NullTicketArgument("Incorrect name");
         }
     }
 
@@ -88,15 +89,15 @@ public abstract class Processor {
 
     }
 
-    static int checkTicketsCount(String data) throws NumberFormatException, InvalidArgument {
+    static int checkTicketsCount(String data) throws NumberFormatException, NullTicketArgument {
         int ticketsCount = Integer.parseInt(data);
         if (ticketsCount <= MIN) {
-            throw new InvalidArgument(String.format("Tickets count must be more than %d", MIN));
+            throw new NullTicketArgument(String.format("Tickets count must be more than %d", MIN));
         }
         return ticketsCount;
     }
 
-    static TicketType checkTicketType(String data) throws InvalidArgument {
+    static TicketType checkTicketType(String data) throws NullTicketArgument {
         switch (data) {
             case "VIP":
                 return TicketType.VIP;
@@ -107,7 +108,7 @@ public abstract class Processor {
             case "CHEAP":
                 return TicketType.CHEAP;
             default:
-                throw new InvalidArgument("Could not find this ticket type");
+                throw new NullTicketArgument("Could not find this ticket type");
         }
     }
 }

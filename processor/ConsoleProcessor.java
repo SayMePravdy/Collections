@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.Scanner;
 
 import data.Coordinates;
+import exceptions.NullTicketArgument;
 import main.Execute;
 
 import static resources.Resources.*;
@@ -50,7 +51,7 @@ public class ConsoleProcessor extends Processor {
                 try {
                     ticketType = checkTicketType(data);
                     break;
-                } catch (InvalidArgument e){
+                } catch (NullTicketArgument e){
                     System.out.println(e.getMessage());
                 }
                 data = scanner.nextLine();
@@ -80,7 +81,7 @@ public class ConsoleProcessor extends Processor {
                 try {
                     checkName(eventName);
                     break;
-                }catch (InvalidArgument e){
+                }catch (NullTicketArgument e){
                     System.out.println(e.getMessage());
                 }
             }
@@ -104,7 +105,7 @@ public class ConsoleProcessor extends Processor {
                     break;
                 } catch (NumberFormatException e) {
                     System.out.println("Incorrect data. Please enter int argument");
-                } catch (InvalidArgument e) {
+                } catch (NullTicketArgument e) {
                     System.out.println(e.getMessage());
                 }
             }
@@ -237,7 +238,7 @@ public class ConsoleProcessor extends Processor {
             try {
                 checkName(ticketName);
                 break;
-            } catch (InvalidArgument e) {
+            } catch (NullTicketArgument e) {
                 System.out.println(e.getMessage());
             }
         }

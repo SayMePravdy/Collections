@@ -1,0 +1,3 @@
+execute_script
+C:\ИТМО\Прога\Laba5.3\src\resources\Script.txt
+info
