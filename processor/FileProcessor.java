@@ -25,7 +25,7 @@ public class FileProcessor extends Processor {
     private boolean script;
     private String[] dataFile;
     private int lineNum = 0;
-    private boolean exit = false;
+    //private boolean exit = false;
 
     public FileProcessor(String path, boolean script) throws IOException {
         this.path = path;
@@ -36,9 +36,6 @@ public class FileProcessor extends Processor {
         }
     }
 
-    public boolean isExit() {
-        return exit;
-    }
 
     public String read() throws IOException {
         StringBuilder dataFile = new StringBuilder();
@@ -58,7 +55,10 @@ public class FileProcessor extends Processor {
     public void readData(MyTreeSet treeSet) {
         if (script) {
             while (lineNum < dataFile.length) {
-                Execute.doCommand(dataFile[lineNum++], treeSet, this);
+                if (Execute.doCommand(dataFile[lineNum++], treeSet, this)) {
+                    exit = true;
+                    break;
+                }
             }
         } else {
             int num = 1;

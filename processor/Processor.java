@@ -23,6 +23,7 @@ public abstract class Processor {
     protected Integer ticketsCount;
     protected TicketType ticketType = null;
     protected Event event = null;
+    protected boolean exit = false;
 
     /**
      * Метод, считывающий билет
@@ -42,6 +43,10 @@ public abstract class Processor {
     public abstract int getId();
     public abstract String getName();
     public abstract void readData(MyTreeSet treeSet);
+
+    public boolean isExit() {
+        return exit;
+    }
 
     public int checkId(String data) {
         try {

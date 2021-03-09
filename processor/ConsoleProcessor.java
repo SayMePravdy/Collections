@@ -224,6 +224,7 @@ public class ConsoleProcessor extends Processor {
         System.out.println("Enter a command");
         String command = scanner.nextLine().trim();
         while (!Execute.doCommand(command, treeSet, this)) {
+
             System.out.println("Enter a command");
             command = scanner.nextLine().trim();
         }
